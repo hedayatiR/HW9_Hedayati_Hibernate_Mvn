@@ -1,6 +1,9 @@
 package ir.maktabsharif;
 
+import ir.maktabsharif.model.Student;
 import ir.maktabsharif.model.Teacher;
+import ir.maktabsharif.model.dao.StudentDAO;
+import ir.maktabsharif.model.dao.StudentDAOImpl;
 import ir.maktabsharif.model.dao.TeacherDAO;
 import ir.maktabsharif.model.dao.TeacherDaoImpl;
 import org.hibernate.SessionFactory;
@@ -12,9 +15,12 @@ import java.util.List;
 public class MainApp {
 
     public static void main(String[] args) {
-        // create
+
         SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
+        // --------- Teacher part ------------------------------------------------
+
+        // create
         TeacherDAO teacherDao = new TeacherDaoImpl(factory);
 
         Teacher teacher1 = new Teacher("Reza", "Hedayati", 1, 1000, LocalDate.of(1990, 4, 10));
@@ -66,6 +72,59 @@ public class MainApp {
 
         // test delete teacher by teacher code
         teacherDao.deleteByCode(2L); // Ali Ahmadi (teacher2) will be deleted.
+
+
+        // --------- Student part ------------------------------------------------
+
+        // create
+        StudentDAO studentDAO = new StudentDAOImpl(factory);
+
+        Student student1 = new Student("Mohammadali", "Rezvani");
+        studentDAO.create(student1);
+
+        Student student2 = new Student("Alimohammad", "Taghavi");
+        studentDAO.create(student2);
+
+        Student student3 = new Student("Mohammad", "Nazari");
+        studentDAO.create(student3);
+
+        Student student4 = new Student("Sara", "Mohammadi");
+        studentDAO.create(student4);
+
+        Student student5 = new Student("Naser", "Abdollahi");
+        studentDAO.create(student5);
+
+        // find by Name in students
+        List<Student> students = studentDAO.findByName("mohammad");
+
+        System.out.println();
+        System.out.println("Students serach result:");
+        System.out.println(students);
+
+        // read
+        Student readStudent = studentDAO.read(student1.getId());
+        System.out.println();
+        System.out.println("student 1 read result:");
+        System.out.println(readStudent);
+        System.out.println();
+
+
+        //update student 1 name. From Mohammadali to Reza
+        student1.setFirstName("Reza");
+        studentDAO.update(student1);
+        Student studentUpdated = studentDAO.read(student1.getId());
+        System.out.println();
+        System.out.println("teacher 1 after update result:");
+        System.out.println(studentUpdated);
+        System.out.println();
+
+
+        // delete student by Id
+        studentDAO.delete(student1.getId());
+
+
+
+
 
         factory.close();
     }

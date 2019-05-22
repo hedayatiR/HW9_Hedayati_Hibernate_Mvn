@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-//@Check(constraints = "teachers.salary > 0")
 @Table(name = "teachers")
 public class Teacher implements Serializable {
 

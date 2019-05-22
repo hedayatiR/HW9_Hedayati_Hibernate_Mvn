@@ -16,6 +16,7 @@
         <property name="hibernate.hbm2ddl.auto">create</property>
 
         <mapping class="ir.maktabsharif.model.Teacher"></mapping>
+        <mapping class="ir.maktabsharif.model.Student"></mapping>
 
     </session-factory>
 </hibernate-configuration>
