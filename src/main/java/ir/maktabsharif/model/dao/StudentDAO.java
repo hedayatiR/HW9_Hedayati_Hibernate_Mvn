@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface StudentDAO extends BaseDAO<Student> {
     List<Student> findByName(String name);
+    List<Student> findByNameCriteria(String name);
 }

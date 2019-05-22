@@ -95,7 +95,10 @@ public class MainApp {
         studentDAO.create(student5);
 
         // find by Name in students
-        List<Student> students = studentDAO.findByName("mohammad");
+        // both of codes below work.
+        // uncomment each line you want
+//        List<Student> students = studentDAO.findByName("mohammad");
+        List<Student> students = studentDAO.findByNameCriteria("mohammad");
 
         System.out.println();
         System.out.println("Students serach result:");
@@ -114,7 +117,7 @@ public class MainApp {
         studentDAO.update(student1);
         Student studentUpdated = studentDAO.read(student1.getId());
         System.out.println();
-        System.out.println("teacher 1 after update result:");
+        System.out.println("student 1 after update result:");
         System.out.println(studentUpdated);
         System.out.println();
 

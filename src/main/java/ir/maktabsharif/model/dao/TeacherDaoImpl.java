@@ -34,10 +34,14 @@ public class TeacherDaoImpl extends BaseDaoImpl<Teacher> implements TeacherDAO {
 
     @Override
     public List<Teacher> youngOldTeachers() {
+        
         Session session = factory.openSession();
 
-        Teacher teacher1 =(Teacher) session.createQuery("from Teacher t order by t.birthDay DESC").setMaxResults(1).getSingleResult();
-        Teacher teacher2 =(Teacher) session.createQuery("from Teacher t order by t.birthDay").setMaxResults(1).getSingleResult();
+        Teacher teacher1 = (Teacher) session.createQuery("select t from Teacher t where t.birthDay=" +
+                " (select max(b.birthDay) from Teacher b)").uniqueResult();
+
+        Teacher teacher2 = (Teacher) session.createQuery("select t from Teacher t where t.birthDay=" +
+                " (select min(b.birthDay) from Teacher b)").uniqueResult();
 
         List<Teacher> teachers = new ArrayList<>();
         teachers.add(teacher1);
@@ -51,17 +55,15 @@ public class TeacherDaoImpl extends BaseDaoImpl<Teacher> implements TeacherDAO {
     public List<Teacher> minMaxSalary() {
         Session session = factory.openSession();
 
-        Teacher teacher1 =(Teacher) session.createQuery("from Teacher t order by t.salary DESC").setMaxResults(1).getSingleResult();
+        Teacher teacher1 = (Teacher) session.createQuery("select t from Teacher t where t.salary=" +
+                " (select max(b.salary) from Teacher b)").uniqueResult();
 
-        Teacher teacher2 =(Teacher) session.createQuery("from Teacher t order by t.salary").setMaxResults(1).getSingleResult();
+        Teacher teacher2 = (Teacher) session.createQuery("select t from Teacher t where t.salary=" +
+                " (select min(b.salary) from Teacher b)").uniqueResult();
 
         List<Teacher> teachers = new ArrayList<>();
         teachers.add(teacher1);
         teachers.add(teacher2);
-
-//        Teacher teacher = (Teacher) session.createQuery("select t from Teacher t where t.salary=" +
-//                                "4000").uniqueResult();
-//                "(select max(b.salary from Teacher b))").uniqueResult();
 
         session.close();
         return teachers;
